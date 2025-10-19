@@ -11,7 +11,7 @@ public class OrderService {
     // Constructor injection
     // Pass our dependency as an argument to this constructor
     // Use PayPal payment service
-    public OrderService(@Qualifier("paypal") PaymentService paymentService) {
+    public OrderService(@Qualifier("stripe") PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
