@@ -1,6 +1,7 @@
 spring:
   application:
     name: store
+payment-gateway: paypal
 stripe:
   apiUrl: https://api.stripe.com
   timeout: 1000
