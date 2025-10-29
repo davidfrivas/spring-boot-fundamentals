@@ -2,6 +2,9 @@ spring:
   application:
     name: store
 payment-gateway: paypal
+mail:
+  host: https://smtp.gmail.com
+  port: 5761
 stripe:
   apiUrl: https://api.stripe.com
   timeout: 1000

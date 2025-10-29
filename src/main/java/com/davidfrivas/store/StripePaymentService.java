@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("stripe")
-@Primary // Stripe is the primary or default payment service
+//@Service("stripe")
+//@Primary // Stripe is the primary or default payment service
 public class StripePaymentService implements PaymentService {
     @Value("${stripe.apiUrl}") // Inject Stripe API URL
     private String apiUrl;
