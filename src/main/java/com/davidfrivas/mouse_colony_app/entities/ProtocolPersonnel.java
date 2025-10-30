@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "protocol_personnel")
+// Composite PK
 @IdClass(ProtocolPersonnel.ProtocolPersonnelId.class)
 public class ProtocolPersonnel {
     @Id
@@ -41,6 +42,7 @@ public class ProtocolPersonnel {
     @NoArgsConstructor
     @AllArgsConstructor
     @EqualsAndHashCode // Generates equals() and hashCode() methods
+    // Composite key class
     public static class ProtocolPersonnelId implements Serializable {
         private Long protocol;
         private Long user;

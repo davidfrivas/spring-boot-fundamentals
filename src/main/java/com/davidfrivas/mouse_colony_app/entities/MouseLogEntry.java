@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Getter
 @Entity
 @Table(name = "mouse_log_entry")
+// Define composite PK
 @IdClass(MouseLogEntry.MouseLogEntryId.class)
 public class MouseLogEntry {
     @Id
@@ -25,6 +26,7 @@ public class MouseLogEntry {
     @JoinColumn(name = "mouse_id")
     private Mouse mouse;
 
+    // Composite key class
     public static class MouseLogEntryId implements Serializable {
         private Long logEntry;
         private Long mouse;
