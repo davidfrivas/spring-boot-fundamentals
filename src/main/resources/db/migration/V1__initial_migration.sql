@@ -9,11 +9,7 @@ create table user
     lab_id     bigint                             not null,
     role       varchar(255)                       not null,
     created_at datetime default current_timestamp not null,
-    updated_at datetime default current_timestamp null on update current_timestamp null,
-    constraint user_lab_id_fk
-        foreign key (lab_id) references lab (lab_id)
-            on delete restrict -- Don't delete labs with users
-            on update cascade
+    updated_at datetime default current_timestamp null on update current_timestamp null
 );
 
 -- Lab table
@@ -30,6 +26,11 @@ create table lab
     created_at    datetime default current_timestamp not null,
     updated_at    datetime default current_timestamp not null on update current_timestamp
 );
+
+alter table user add constraint fk_user_lab_id
+    foreign key (lab_id) references lab (lab_id)
+        on delete restrict -- Don't delete labs with users
+        on update cascade;
 
 -- Lab-User junction table
 create table lab_user
@@ -59,7 +60,7 @@ create table research_protocol
     expiration_date date as (date_add(approval_date, interval 1 year)) stored,
     created_at      datetime default current_timestamp      not null,
     updated_at      datetime default current_timestamp      not null on update current_timestamp,
-    constraint fk_lab_id
+    constraint fk_protocol_lab_id
         foreign key (lab_id) references lab (lab_id)
             on delete restrict  -- Don't allow deleting labs with active protocols
 );
@@ -85,19 +86,19 @@ create table mouse
     father_id     bigint                             null,
     created_at    datetime default current_timestamp not null,
     updated_at    datetime default current_timestamp not null on update current_timestamp,
-    constraint fk_father_id
+    constraint fk_mouse_father_id
         foreign key (father_id) references mouse (mouse_id)
             on delete set null, -- If father is deleted, set to NULL
-    constraint fk_lab_id
+    constraint fk_mouse_lab_id
         foreign key (lab_id) references lab (lab_id)
             on delete restrict,  -- Don't delete labs with mice
-    constraint fk_mother_id
+    constraint fk_mouse_mother_id
         foreign key (mother_id) references mouse (mouse_id)
             on delete set null, -- If mother is deleted, set to NULL
-    constraint fk_protocol_id
+    constraint fk_mouse_protocol_id
         foreign key (protocol_id) references research_protocol (protocol_id)
             on delete restrict, -- Don't delete protocols with active mice
-    constraint fk_user_id
+    constraint fk_mouse_user_id
         foreign key (user_id) references user (user_id)
             on delete restrict -- Don't delete users who have mice assigned
 );
@@ -112,13 +113,13 @@ create table litter
     mother_id     bigint not null,
     father_id     bigint not null,
     date_of_birth date   not null,
-    protocol_id   int    not null,
+    protocol_id   bigint    not null,
     notes         text   null,
-    constraint fk_father_id
+    constraint fk_litter_father_id
         foreign key (father_id) references mouse (mouse_id),
-    constraint fk_mother_id
+    constraint fk_litter_mother_id
         foreign key (mother_id) references mouse (mouse_id),
-    constraint fk_protocol_id
+    constraint fk_litter_protocol_id
         foreign key (protocol_id) references research_protocol (protocol_id)
 );
 
