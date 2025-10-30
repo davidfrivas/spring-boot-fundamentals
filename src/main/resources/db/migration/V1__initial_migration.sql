@@ -4,6 +4,7 @@ create table user
     user_id    bigint auto_increment
         primary key,
     username   varchar(255)                       not null unique,
+    name       varchar(255)                       not null,
     email      varchar(255)                       not null unique,
     password   varchar(255)                       not null,
     lab_id     bigint                             not null,
@@ -131,11 +132,6 @@ create table litter
         foreign key (protocol_id) references research_protocol (protocol_id)
             on delete restrict
 );
-
--- Add litter_id to mouse table
-alter table mouse add column litter_id bigint null;
-alter table mouse add constraint fk_mouse_litter
-    foreign key (litter_id) references litter(litter_id);
 
 -- Log Entry table
 create table log_entry
