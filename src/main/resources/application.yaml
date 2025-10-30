@@ -1,12 +1,19 @@
 spring:
   application:
-    name: store
-payment-gateway: paypal
-mail:
-  host: https://smtp.gmail.com
-  port: 5761
-stripe:
-  apiUrl: https://api.stripe.com
-  timeout: 1000
-  enabled: true
-  supported-currencies: USD,EUR,GBP
+    name: mouse-colony-app
+  datasource:
+    # JDBC URL for MySQL database connection
+    url: jdbc:mysql://localhost:3306/mouse-colony-app?createDatabaseIfNotExist=true
+
+    # Database credentials loaded from environment variables
+    username: ${db.user}
+    password: ${db.password}
+
+    # MySQL JDBC driver class (required for MySQL 8.0+)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  flyway:
+    # Enable Flyway database migrations on application startup
+    enabled: true
+    # Allow Flyway to baseline an existing database
+    baseline-on-migrate: true

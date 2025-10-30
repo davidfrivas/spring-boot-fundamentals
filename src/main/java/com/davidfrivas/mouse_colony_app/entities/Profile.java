@@ -1,4 +1,4 @@
-package com.davidfrivas.store.entities;
+package com.davidfrivas.mouse_colony_app.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

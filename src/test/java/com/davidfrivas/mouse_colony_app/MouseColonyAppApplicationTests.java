@@ -1,10 +1,10 @@
-package com.davidfrivas.store;
+package com.davidfrivas.mouse_colony_app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StoreApplicationTests {
+class MouseColonyAppApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -9,10 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.davidfrivas</groupId>
-	<artifactId>store</artifactId>
+	<artifactId>mouse-colony-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>store</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Spring Boot Java app for managing lab mouse colonies and sharing mice across research groups in a
+        research institute.</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -83,7 +84,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>11.7.2</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/store?createDatabaseIfNotExist=true</url>
+                    <url>jdbc:mysql://localhost:3306/mouse-colony-app?createDatabaseIfNotExist=true</url>
                     <user>${db.user}</user>
                     <password>${db.password}</password>
                 </configuration>
