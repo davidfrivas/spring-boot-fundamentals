@@ -27,6 +27,7 @@ create table lab
     updated_at    datetime default current_timestamp not null on update current_timestamp
 );
 
+-- Add lab-id FK constraint to User table
 alter table user add constraint fk_user_lab_id
     foreign key (lab_id) references lab (lab_id)
         on delete restrict -- Don't delete labs with users
