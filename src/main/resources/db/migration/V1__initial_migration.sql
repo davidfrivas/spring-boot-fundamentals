@@ -9,7 +9,7 @@ create table user
     lab_id     bigint                             not null,
     role       varchar(255)                       not null,
     created_at datetime default current_timestamp not null,
-    updated_at datetime default current_timestamp null on update current_timestamp null
+    updated_at datetime default current_timestamp on update current_timestamp null
 );
 
 -- Lab table
@@ -32,20 +32,6 @@ alter table user add constraint fk_user_lab_id
         on delete restrict -- Don't delete labs with users
         on update cascade;
 
--- Lab-User junction table
-create table lab_user
-(
-    lab_id  bigint not null,
-    user_id bigint not null,
-    primary key (lab_id, user_id),  -- Composite primary key prevents duplicates
-    constraint fk_lab_user_lab
-        foreign key (lab_id) references lab (lab_id)
-            on delete cascade, -- If lab is deleted, remove all roster entries
-    constraint fk_lab_user_user
-        foreign key (user_id) references user (user_id)
-            on delete cascade -- If user is deleted, remove from all lab rosters
-);
-
 -- Research Protocol table
 create table research_protocol
 (
@@ -65,7 +51,22 @@ create table research_protocol
             on delete restrict  -- Don't allow deleting labs with active protocols
 );
 
--- TODO: Lab-Protocol junction table
+-- Lab-Protocol junction table
+create table protocol_personnel
+(
+    protocol_id bigint                             not null,
+    user_id     bigint                             not null,
+    role        varchar(255)                       not null,
+    assigned_at datetime default current_timestamp not null,
+    constraint pk_protocol_personnel
+        primary key (protocol_id, user_id),
+    constraint fk_protocol_personnel_protocol
+        foreign key (protocol_id) references research_protocol (protocol_id)
+            on delete cascade, -- If protocol deleted, remove all personnel assignments
+    constraint fk_protocol_personnel_user
+        foreign key (user_id) references user (user_id)
+            on delete cascade -- If user deleted, remove from all protocols
+);
 
 -- Mouse table
 create table mouse
@@ -103,24 +104,31 @@ create table mouse
             on delete restrict -- Don't delete users who have mice assigned
 );
 
--- TODO: Mouse-Protocol junction table
-
 -- Litter junction table
 create table litter
 (
     litter_id     bigint auto_increment
         primary key,
+    lab_id        bigint not null,
     mother_id     bigint not null,
     father_id     bigint not null,
     date_of_birth date   not null,
     protocol_id   bigint    not null,
     notes         text   null,
+    created_at    datetime default current_timestamp not null,
+    updated_at    datetime default current_timestamp on update current_timestamp not null,
     constraint fk_litter_father_id
-        foreign key (father_id) references mouse (mouse_id),
+        foreign key (father_id) references mouse (mouse_id)
+            on delete restrict,  -- Don't delete breeding mice
+    constraint fk_litter_lab_id
+        foreign key (lab_id) references lab (lab_id)
+            on delete restrict,
     constraint fk_litter_mother_id
-        foreign key (mother_id) references mouse (mouse_id),
+        foreign key (mother_id) references mouse (mouse_id)
+            on delete restrict,
     constraint fk_litter_protocol_id
         foreign key (protocol_id) references research_protocol (protocol_id)
+            on delete restrict
 );
 
 -- Add litter_id to mouse table
@@ -133,14 +141,16 @@ create table log_entry
 (
     log_id     bigint auto_increment
         primary key,
-    user_id    bigint                             not null,
+    user_id    bigint                             null,
     lab_id     bigint                             not null,
     content    text                               not null,
     created_at datetime default current_timestamp not null,
-    constraint fk_lab_id
-        foreign key (lab_id) references lab (lab_id),
-    constraint fk_user_id
+    constraint fk_log_entry_lab
+        foreign key (lab_id) references lab (lab_id)
+            on delete restrict, -- Restrict to preserve logs
+    constraint fk_log_entry_user
         foreign key (user_id) references user (user_id)
+            on delete set null -- Preserve logs even if user deleted
 );
 
 -- Mouse Log Entry junction table
@@ -149,7 +159,8 @@ create table mouse_log_entry
     log_id   bigint not null,
     mouse_id bigint not null,
 
-    primary key (log_id, mouse_id),  -- Composite PK prevents duplicates
+    constraint pk_mouse_log_entry
+        primary key (log_id, mouse_id),  -- Composite PK prevents duplicates
 
     constraint fk_mouse_log_entry_log
         foreign key (log_id) references log_entry (log_id)
