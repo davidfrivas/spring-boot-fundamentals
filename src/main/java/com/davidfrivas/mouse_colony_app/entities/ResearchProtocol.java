@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -51,11 +52,13 @@ public class ResearchProtocol {
 
     // One research protocol can have many mice
     @OneToMany(mappedBy = "protocol")
-    private Set<Mouse> mice;
+    @Builder.Default
+    private Set<Mouse> mice = new HashSet<>();
 
     // One research protocol can have many personnel
     @OneToMany(mappedBy = "protocol", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProtocolPersonnel> personnel;
+    @Builder.Default
+    private Set<ProtocolPersonnel> personnel = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {

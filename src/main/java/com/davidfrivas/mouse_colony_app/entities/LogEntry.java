@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -36,7 +37,8 @@ public class LogEntry {
             joinColumns = @JoinColumn(name = "log_id"),
             inverseJoinColumns = @JoinColumn(name = "mouse_id")
     )
-    private Set<Mouse> mice;
+    @Builder.Default
+    private Set<Mouse> mice = new HashSet<>();
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;

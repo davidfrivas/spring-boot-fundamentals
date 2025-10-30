@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -45,15 +46,18 @@ public class Lab {
 
     // One lab can have many users
     @OneToMany(mappedBy = "lab")
-    private Set<User> users;
+    @Builder.Default
+    private Set<User> users = new HashSet<>();
 
     // One lab can have many protocols
     @OneToMany(mappedBy = "lab")
-    private Set<ResearchProtocol> protocols;
+    @Builder.Default
+    private Set<ResearchProtocol> protocols = new HashSet<>();
 
     // One lab can have many mice
     @OneToMany(mappedBy = "lab")
-    private Set<Mouse> mice;
+    @Builder.Default
+    private Set<Mouse> mice = new HashSet<>();
 
     @PrePersist // Executes before a new entity is inserted into DB
     protected void onCreate() {
