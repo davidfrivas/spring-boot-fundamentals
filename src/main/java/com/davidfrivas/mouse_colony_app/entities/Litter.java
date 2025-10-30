@@ -19,14 +19,17 @@ public class Litter {
     @Column(name = "litter_id")
     private Long litterId;
 
+    // Many litters can belong to one lab
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_id", nullable = false)
     private Lab lab;
 
+    // Many litters can share the same mother
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mother_id", nullable = false)
     private Mouse mother;
 
+    // Many litters can share the same father
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "father_id", nullable = false)
     private Mouse father;
@@ -34,6 +37,7 @@ public class Litter {
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
+    // Many litters can share the same protocol
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "protocol_id", nullable = false)
     private ResearchProtocol protocol;

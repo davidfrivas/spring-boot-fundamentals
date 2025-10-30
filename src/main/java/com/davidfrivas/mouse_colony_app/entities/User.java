@@ -30,6 +30,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    // Many users belong to one lab
     @ManyToOne(fetch = FetchType.LAZY) // Entity not loaded immediately
     @JoinColumn(name = "lab_id", nullable = false)
     private Lab lab;

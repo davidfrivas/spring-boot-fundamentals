@@ -16,11 +16,13 @@ import java.time.LocalDateTime;
 @IdClass(ProtocolPersonnel.ProtocolPersonnelId.class)
 public class ProtocolPersonnel {
     @Id
+    // Many protocol personnel records can point to one research protocol
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "protocol_id", nullable = false)
     private ResearchProtocol protocol;
 
     @Id
+    // Many protocol personnel records can reference the same user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

@@ -41,22 +41,27 @@ public class Mouse {
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
+    // Many mice can be owned by one lab
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_id", nullable = false)
     private Lab lab;
 
+    // Many mice can belong to one research protocol
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "protocol_id", nullable = false)
     private ResearchProtocol protocol;
 
+    // Many mice can be created by a user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // Many mice can share the same mother
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mother_id")
     private Mouse mother;
 
+    // Many mice can share the same father
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "father_id")
     private Mouse father;

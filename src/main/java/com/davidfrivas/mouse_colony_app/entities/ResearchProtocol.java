@@ -29,6 +29,7 @@ public class ResearchProtocol {
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    // Many research protocols can belong to one lab
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_id", nullable = false)
     private Lab lab;
@@ -48,10 +49,11 @@ public class ResearchProtocol {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    // Add relationships
+    // One research protocol can have many mice
     @OneToMany(mappedBy = "protocol")
     private Set<Mouse> mice;
 
+    // One research protocol can have many personnel
     @OneToMany(mappedBy = "protocol", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProtocolPersonnel> personnel;
 

@@ -43,16 +43,15 @@ public class Lab {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Relationships
-    // Lab has zero or many users
+    // One lab can have many users
     @OneToMany(mappedBy = "lab")
     private Set<User> users;
 
-    // Lab has zero or many protocols
+    // One lab can have many protocols
     @OneToMany(mappedBy = "lab")
     private Set<ResearchProtocol> protocols;
 
-    // Lab has zero or many mice
+    // One lab can have many mice
     @OneToMany(mappedBy = "lab")
     private Set<Mouse> mice;
 

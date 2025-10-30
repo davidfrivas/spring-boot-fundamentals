@@ -19,14 +19,17 @@ public class LogEntry {
     @Column(name = "log_id")
     private Long logId;
 
+    // Many log entries can be made by one user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    // Many log entries can belong to one lab
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_id", nullable = false)
     private Lab lab;
 
+    // One log entry can mention many mice, and one mouse can appear in many log entries
     @ManyToMany
     @JoinTable(
             name = "mouse_log_entry",

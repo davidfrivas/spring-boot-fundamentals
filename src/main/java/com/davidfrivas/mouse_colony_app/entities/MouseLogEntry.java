@@ -14,11 +14,13 @@ import java.io.Serializable;
 @IdClass(MouseLogEntry.MouseLogEntryId.class)
 public class MouseLogEntry {
     @Id
+    // Many MouseLogEntries can reference the same Log Entry
     @ManyToOne
     @JoinColumn(name = "log_id")
     private LogEntry logEntry;
 
     @Id
+    // Many MouseLogEntries can reference the same mouse
     @ManyToOne
     @JoinColumn(name = "mouse_id")
     private Mouse mouse;
