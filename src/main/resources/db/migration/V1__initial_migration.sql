@@ -3,12 +3,12 @@ CREATE TABLE user
 (
     user_id    bigint auto_increment
         PRIMARY KEY,
-    username   varchar(255)                       NOT NULL UNIQUE,
-    name       varchar(255)                       NOT NULL,
-    email      varchar(255)                       NOT NULL UNIQUE,
-    password   varchar(255)                       NOT NULL,
+    username   VARCHAR(255)                       NOT NULL UNIQUE,
+    name       VARCHAR(255)                       NOT NULL,
+    email      VARCHAR(255)                       NOT NULL UNIQUE,
+    password   VARCHAR(255)                       NOT NULL,
     lab_id     bigint                             NOT NULL,
-    role       varchar(255)                       NOT NULL,
+    role       VARCHAR(255)                       NOT NULL,
     created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL
 );
@@ -18,11 +18,11 @@ CREATE TABLE lab
 (
     lab_id        bigint auto_increment
         PRIMARY KEY,
-    name          varchar(255)                       NOT NULL,
-    contact_email varchar(255)                       NOT NULL,
-    institution   varchar(255)                       NOT NULL,
-    department    varchar(255)                       NOT NULL,
-    address       varchar(255)                       NOT NULL,
+    name          VARCHAR(255)                       NOT NULL,
+    contact_email VARCHAR(255)                       NOT NULL,
+    institution   VARCHAR(255)                       NOT NULL,
+    department    VARCHAR(255)                       NOT NULL,
+    address       VARCHAR(255)                       NOT NULL,
     description   text                               NOT NULL,
     created_at    datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at    datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP
@@ -40,13 +40,13 @@ CREATE TABLE research_protocol
 (
     protocol_id     bigint auto_increment
         PRIMARY KEY,
-    protocol_number varchar(255)                       NOT NULL UNIQUE,
+    protocol_number VARCHAR(255)                       NOT NULL UNIQUE,
     title           text                               NOT NULL,
     description     text                               NOT NULL,
     lab_id          bigint                             NOT NULL,
-    status          varchar(255)                       NOT NULL,
-    approval_date   date NULL,
-    expiration_date date AS (date_add(approval_date, INTERVAL 1 YEAR)) stored,
+    status          VARCHAR(255)                       NOT NULL,
+    approval_date   DATE NULL,
+    expiration_date DATE AS (date_add(approval_date, INTERVAL 1 YEAR)) stored,
     created_at      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_protocol_lab_id
@@ -59,7 +59,7 @@ CREATE TABLE protocol_personnel
 (
     protocol_id bigint                             NOT NULL,
     user_id     bigint                             NOT NULL,
-    role        varchar(255)                       NOT NULL,
+    role        VARCHAR(255)                       NOT NULL,
     assigned_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_protocol_personnel
         PRIMARY KEY (protocol_id, user_id),
@@ -76,11 +76,11 @@ CREATE TABLE mouse
 (
     mouse_id      bigint auto_increment
         PRIMARY KEY,
-    name          varchar(255)                       NOT NULL,
+    name          VARCHAR(255)                       NOT NULL,
     sex           enum ('M', 'F')         NULL,
-    genotype      varchar(255)                       NOT NULL,
-    strain        varchar(255)                       NOT NULL,
-    date_of_birth date                               NOT NULL,
+    genotype      VARCHAR(255)                       NOT NULL,
+    strain        VARCHAR(255)                       NOT NULL,
+    date_of_birth DATE                               NOT NULL,
     availability  boolean  DEFAULT TRUE              NOT NULL,
     notes         text NULL,
     lab_id        bigint                             NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE litter
     lab_id        bigint                             NOT NULL,
     mother_id     bigint                             NOT NULL,
     father_id     bigint                             NOT NULL,
-    date_of_birth date                               NOT NULL,
+    date_of_birth DATE                               NOT NULL,
     protocol_id   bigint                             NOT NULL,
     notes         text NULL,
     created_at    datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE mouse_request
     from_lab_id  bigint                             NOT NULL,
     to_lab_id    bigint                             NOT NULL,
     message      text                               NOT NULL,
-    status       varchar(255)                       NOT NULL,
+    status       VARCHAR(255)                       NOT NULL,
     created_at   datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at   datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_from_lab_id
