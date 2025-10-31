@@ -27,6 +27,9 @@ public class MouseLogEntry {
     private Mouse mouse;
 
     // Composite key class
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @EqualsAndHashCode
     public static class MouseLogEntryId implements Serializable {
         private Long logEntry;
         private Long mouse;
