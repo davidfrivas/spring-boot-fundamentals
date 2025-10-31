@@ -1,31 +1,31 @@
 -- User table
 CREATE TABLE user
 (
-    user_id    bigint auto_increment
+    user_id    BIGINT AUTO_INCREMENT
         PRIMARY KEY,
-    username   VARCHAR(255)                       NOT NULL UNIQUE,
-    name       VARCHAR(255)                       NOT NULL,
-    email      VARCHAR(255)                       NOT NULL UNIQUE,
-    password   VARCHAR(255)                       NOT NULL,
-    lab_id     bigint                             NOT NULL,
-    role       VARCHAR(255)                       NOT NULL,
-    created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL
+    username   VARCHAR(255)                                                   NOT NULL UNIQUE,
+    name       VARCHAR(255)                                                   NOT NULL,
+    email      VARCHAR(255)                                                   NOT NULL UNIQUE,
+    password   VARCHAR(255)                                                   NOT NULL,
+    lab_id     BIGINT                                                         NOT NULL,
+    role       VARCHAR(255)                                                   NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP                             NOT NULL,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL
 );
 
 -- Lab table
 CREATE TABLE lab
 (
-    lab_id        bigint auto_increment
+    lab_id        BIGINT AUTO_INCREMENT
         PRIMARY KEY,
     name          VARCHAR(255)                       NOT NULL,
     contact_email VARCHAR(255)                       NOT NULL,
     institution   VARCHAR(255)                       NOT NULL,
     department    VARCHAR(255)                       NOT NULL,
     address       VARCHAR(255)                       NOT NULL,
-    description   text                               NOT NULL,
-    created_at    datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at    datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP
+    description   TEXT                               NOT NULL,
+    created_at    DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Add lab-id FK constraint to User table
@@ -38,17 +38,17 @@ ALTER TABLE user
 -- Research Protocol table
 CREATE TABLE research_protocol
 (
-    protocol_id     bigint auto_increment
+    protocol_id     BIGINT AUTO_INCREMENT
         PRIMARY KEY,
     protocol_number VARCHAR(255)                       NOT NULL UNIQUE,
-    title           text                               NOT NULL,
-    description     text                               NOT NULL,
-    lab_id          bigint                             NOT NULL,
+    title           TEXT                               NOT NULL,
+    description     TEXT                               NOT NULL,
+    lab_id          BIGINT                             NOT NULL,
     status          VARCHAR(255)                       NOT NULL,
-    approval_date   DATE NULL,
-    expiration_date DATE AS (date_add(approval_date, INTERVAL 1 YEAR)) stored,
-    created_at      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    approval_date   DATE                               NULL,
+    expiration_date DATE AS (DATE_ADD(approval_date, INTERVAL 1 YEAR)) STORED,
+    created_at      DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at      DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_protocol_lab_id
         FOREIGN KEY (lab_id) REFERENCES lab (lab_id)
             ON DELETE RESTRICT -- Don't allow deleting labs with active protocols
@@ -57,10 +57,10 @@ CREATE TABLE research_protocol
 -- Lab-Protocol junction table
 CREATE TABLE protocol_personnel
 (
-    protocol_id bigint                             NOT NULL,
-    user_id     bigint                             NOT NULL,
+    protocol_id BIGINT                             NOT NULL,
+    user_id     BIGINT                             NOT NULL,
     role        VARCHAR(255)                       NOT NULL,
-    assigned_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    assigned_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_protocol_personnel
         PRIMARY KEY (protocol_id, user_id),
     CONSTRAINT fk_protocol_personnel_protocol
@@ -74,22 +74,22 @@ CREATE TABLE protocol_personnel
 -- Mouse table
 CREATE TABLE mouse
 (
-    mouse_id      bigint auto_increment
+    mouse_id      BIGINT AUTO_INCREMENT
         PRIMARY KEY,
     name          VARCHAR(255)                       NOT NULL,
-    sex           enum ('M', 'F')         NULL,
+    sex           ENUM ('M', 'F')                    NULL,
     genotype      VARCHAR(255)                       NOT NULL,
     strain        VARCHAR(255)                       NOT NULL,
     date_of_birth DATE                               NOT NULL,
-    availability  boolean  DEFAULT TRUE              NOT NULL,
-    notes         text NULL,
-    lab_id        bigint                             NOT NULL,
-    protocol_id   bigint                             NOT NULL,
-    user_id       bigint                             NOT NULL,
-    mother_id     bigint NULL,
-    father_id     bigint NULL,
-    created_at    datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at    datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    availability  BOOLEAN  DEFAULT TRUE              NOT NULL,
+    notes         TEXT                               NULL,
+    lab_id        BIGINT                             NOT NULL,
+    protocol_id   BIGINT                             NOT NULL,
+    user_id       BIGINT                             NOT NULL,
+    mother_id     BIGINT                             NULL,
+    father_id     BIGINT                             NULL,
+    created_at    DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_mouse_father_id
         FOREIGN KEY (father_id) REFERENCES mouse (mouse_id)
             ON DELETE SET NULL, -- If father is deleted, set to NULL
@@ -110,16 +110,16 @@ CREATE TABLE mouse
 -- Litter junction table
 CREATE TABLE litter
 (
-    litter_id     bigint auto_increment
+    litter_id     BIGINT AUTO_INCREMENT
         PRIMARY KEY,
-    lab_id        bigint                             NOT NULL,
-    mother_id     bigint                             NOT NULL,
-    father_id     bigint                             NOT NULL,
-    date_of_birth DATE                               NOT NULL,
-    protocol_id   bigint                             NOT NULL,
-    notes         text NULL,
-    created_at    datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at    datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    lab_id        BIGINT                                                         NOT NULL,
+    mother_id     BIGINT                                                         NOT NULL,
+    father_id     BIGINT                                                         NOT NULL,
+    date_of_birth DATE                                                           NOT NULL,
+    protocol_id   BIGINT                                                         NOT NULL,
+    notes         TEXT                                                           NULL,
+    created_at    DATETIME DEFAULT CURRENT_TIMESTAMP                             NOT NULL,
+    updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT fk_litter_father_id
         FOREIGN KEY (father_id) REFERENCES mouse (mouse_id)
             ON DELETE RESTRICT, -- Don't delete breeding mice
@@ -137,12 +137,12 @@ CREATE TABLE litter
 -- Log Entry table
 CREATE TABLE log_entry
 (
-    log_id     bigint auto_increment
+    log_id     BIGINT AUTO_INCREMENT
         PRIMARY KEY,
-    user_id    bigint NULL,
-    lab_id     bigint                             NOT NULL,
-    content    text                               NOT NULL,
-    created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    user_id    BIGINT                             NULL,
+    lab_id     BIGINT                             NOT NULL,
+    content    TEXT                               NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT fk_log_entry_lab
         FOREIGN KEY (lab_id) REFERENCES lab (lab_id)
             ON DELETE RESTRICT, -- Restrict to preserve logs
@@ -154,8 +154,8 @@ CREATE TABLE log_entry
 -- Mouse Log Entry junction table
 CREATE TABLE mouse_log_entry
 (
-    log_id   bigint NOT NULL,
-    mouse_id bigint NOT NULL,
+    log_id   BIGINT NOT NULL,
+    mouse_id BIGINT NOT NULL,
 
     CONSTRAINT pk_mouse_log_entry
         PRIMARY KEY (log_id, mouse_id), -- Composite PK prevents duplicates
@@ -172,16 +172,16 @@ CREATE TABLE mouse_log_entry
 -- Mouse Request table
 CREATE TABLE mouse_request
 (
-    request_id   bigint auto_increment
+    request_id   BIGINT AUTO_INCREMENT
         PRIMARY KEY,
-    requestor_id bigint                             NOT NULL,
-    mouse_id     bigint                             NOT NULL,
-    from_lab_id  bigint                             NOT NULL,
-    to_lab_id    bigint                             NOT NULL,
-    message      text                               NOT NULL,
+    requestor_id BIGINT                             NOT NULL,
+    mouse_id     BIGINT                             NOT NULL,
+    from_lab_id  BIGINT                             NOT NULL,
+    to_lab_id    BIGINT                             NOT NULL,
+    message      TEXT                               NOT NULL,
     status       VARCHAR(255)                       NOT NULL,
-    created_at   datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at   datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at   DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_from_lab_id
         FOREIGN KEY (from_lab_id) REFERENCES lab (lab_id)
             ON DELETE CASCADE,
