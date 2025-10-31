@@ -76,7 +76,7 @@ create table mouse
     mouse_id      bigint auto_increment
         primary key,
     name          varchar(255)                       not null,
-    sex           enum ('M', 'F')                    not null,
+    sex           enum ('M', 'F')         null,
     genotype      varchar(255)                       not null,
     strain        varchar(255)                       not null,
     date_of_birth date                               not null,

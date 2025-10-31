@@ -23,8 +23,8 @@ public class Mouse {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "sex", nullable = false, length = 1)
-    private Character sex;
+    @Column(name = "sex")
+    private Sex sex;
 
     @Column(name = "genotype", nullable = false)
     private String genotype;
@@ -81,5 +81,9 @@ public class Mouse {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public enum Sex {
+        M, F
     }
 }
