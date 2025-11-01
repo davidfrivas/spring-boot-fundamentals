@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -50,6 +52,11 @@ public class Litter {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    // One litter can have many mice
+    @OneToMany(mappedBy = "litter")
+    @Builder.Default
+    private Set<Mouse> mice = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
