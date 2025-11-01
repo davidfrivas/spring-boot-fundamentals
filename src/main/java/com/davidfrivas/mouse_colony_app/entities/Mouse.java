@@ -72,6 +72,11 @@ public class Mouse {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    // Many mice can belong to one litter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "litter_id")
+    private Litter litter;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
