@@ -8,6 +8,8 @@ spring:
     # Database credentials loaded from environment variables
     username: @db.user@
     password: @db.password@
+  jpa:
+    show-sql: true # Show SQL statements from JPA Hibernate
 
     # MySQL JDBC driver class (required for MySQL 8.0+)
     driver-class-name: com.mysql.cj.jdbc.Driver
