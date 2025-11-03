@@ -52,6 +52,23 @@ public class LabService {
     // Delete lab
     public void deleteLab(Long id) {
         Lab lab = findById(id);
+
+        if (!lab.getUsers().isEmpty()) {
+            throw new IllegalStateException("Cannot delete lab with active users");
+        }
+
+        if (!lab.getProtocols().isEmpty()) {
+            throw new IllegalStateException("Cannot delete lab with active protocols");
+        }
+
+        if (!lab.getMice().isEmpty()) {
+            throw new IllegalStateException("Cannot delete lab with mice");
+        }
+
+        if (!lab.getLitters().isEmpty()) {
+            throw new IllegalStateException("Cannot delete lab with litters");
+        }
+
         labRepository.delete(lab);
     }
 
