@@ -155,7 +155,8 @@ public class MouseService {
     // Get offspring of a mouse
     public List<Mouse> getOffspring(Long mouseId) {
         return findAll().stream()
-                .filter(m -> m.getMother() != null && m.getMother().getMouseId().equals(mouseId) || m.getFather() != null && m.getFather().getMouseId().equals(mouseId))
+                .filter(m -> (m.getMother() != null && m.getMother().getMouseId().equals(mouseId))
+                        || (m.getFather() != null && m.getFather().getMouseId().equals(mouseId)))
                 .toList();
     }
 
