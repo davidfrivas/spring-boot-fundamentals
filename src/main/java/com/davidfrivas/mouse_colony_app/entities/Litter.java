@@ -21,6 +21,9 @@ public class Litter {
     @Column(name = "litter_id")
     private Long litterId;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     // Many litters can belong to one lab
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_id", nullable = false)
