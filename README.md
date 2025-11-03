@@ -188,7 +188,7 @@ The application will start on `http://localhost:8080`.
 ```
 com.davidfrivas.mouse_colony_app/
 ├── docs/
-   │   └── er-diagram.pdf
+│   └── er-diagram.pdf
 ├── entities/          # JPA entity classes
 │   ├── Lab.java
 │   ├── User.java
