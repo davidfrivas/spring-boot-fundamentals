@@ -36,6 +36,7 @@ public class LogEntryService {
 
         // Fetch and set lab
         Lab lab = labRepository.findById(labId).orElseThrow(() -> new RuntimeException("Lab not found with id " + labId));
+        logEntry.setLab(lab);
 
         return logEntryRepository.save(logEntry);
     }
