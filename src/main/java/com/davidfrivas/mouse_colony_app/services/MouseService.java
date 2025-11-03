@@ -152,6 +152,13 @@ public class MouseService {
                 .toList();
     }
 
+    // Get mice created by a user
+    public List<Mouse> getMiceCreatedByUser(Long userId) {
+        return findAll().stream()
+                .filter(m -> m.getUser().getUserId().equals(userId))
+                .toList();
+    }
+
     // Get offspring of a mouse
     public List<Mouse> getOffspring(Long mouseId) {
         return findAll().stream()
