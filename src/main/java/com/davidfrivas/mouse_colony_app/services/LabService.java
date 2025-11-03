@@ -44,6 +44,7 @@ public class LabService {
         existingLab.setDepartment(updatedLab.getDepartment());
         existingLab.setDescription(updatedLab.getDescription());
         existingLab.setAddress(updatedLab.getAddress());
+        existingLab.setInstitution(updatedLab.getInstitution());
 
         return labRepository.save(existingLab); // Save existing lab
     }
