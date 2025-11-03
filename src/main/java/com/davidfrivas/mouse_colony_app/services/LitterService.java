@@ -24,6 +24,10 @@ public class LitterService {
     // Create a new litter
     public Litter createLitter(Litter litter, Long labId, Long motherId, Long fatherId, Long protocolId) {
         // Validation
+        if (litter.getName() == null || litter.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Litter name is required");
+        }
+
         if (litter.getDateOfBirth() == null) {
             throw new IllegalArgumentException("Date of birth is required");
         }
@@ -68,6 +72,7 @@ public class LitterService {
 
         existingLitter.setDateOfBirth(updatedLitter.getDateOfBirth());
         existingLitter.setNotes(updatedLitter.getNotes());
+        existingLitter.setName(updatedLitter.getName());
 
         return litterRepository.save(existingLitter);
     }
