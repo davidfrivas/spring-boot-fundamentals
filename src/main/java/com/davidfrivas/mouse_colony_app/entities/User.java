@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,6 +39,13 @@ public class User {
 
     @Column(name = "role", nullable = false)
     private String role;
+
+    @OneToMany(mappedBy = "requestor", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @Builder.Default
+    private Set<MouseRequest> requestsMade = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<ProtocolPersonnel> protocolAssignments = new HashSet<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
