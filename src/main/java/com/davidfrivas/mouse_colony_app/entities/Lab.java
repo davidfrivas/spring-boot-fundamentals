@@ -59,6 +59,11 @@ public class Lab {
     @Builder.Default
     private Set<Mouse> mice = new HashSet<>();
 
+    // One lab can have many litters
+    @OneToMany(mappedBy = "lab")
+    @Builder.Default
+    private Set<Litter> litters = new HashSet<>();
+
     @PrePersist // Executes before a new entity is inserted into DB
     protected void onCreate() {
         createdAt = LocalDateTime.now();
