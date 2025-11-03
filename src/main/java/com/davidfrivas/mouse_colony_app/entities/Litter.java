@@ -56,7 +56,7 @@ public class Litter {
     // One litter can have many mice
     @OneToMany(mappedBy = "litter")
     @Builder.Default
-    private Set<Mouse> mice = new HashSet<>();
+    private Set<Mouse> offspring = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
