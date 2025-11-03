@@ -34,6 +34,7 @@ public class LitterService {
 
         // Fetch and set lab
         Lab lab = labRepository.findById(labId).orElseThrow(() -> new RuntimeException("Lab not found with id: " + labId));
+        litter.setLab(lab);
 
         // Fetch and set mother
         Mouse mother = mouseRepository.findById(motherId).orElseThrow(() -> new RuntimeException("Mother not found with id: " + motherId));
